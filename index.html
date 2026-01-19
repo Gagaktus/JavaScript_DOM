@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td{
+            border: 1px solid black;
+        }
+        table{
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <table></table>
+    <button onclick="addNumber()">Добавить число</button>
+    
+    <script>
+
+        let numbers = [];
+        for(let i = 0; i < 30; i++) {
+            numbers.push(Math.floor(Math.random() * 100));
+        }
+        
+        function createTable() {
+            const table = document.querySelector('table');
+            table.innerHTML = '';
+            
+            for(let row = 0; row < 5; row++) {
+                let tr = document.createElement('tr');
+                for(let col = 0; col < 6; col++) {
+                    let td = document.createElement('td');
+                    let index = row * 6 + col;
+                    let value = numbers[index];
+                    td.textContent = value;
+                    
+                    if(value >= 50) {
+                        td.style.backgroundColor = "orange";
+                    }
+                    
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+        }
+        
+
+        function addNumber() {
+            const newNumber = Math.floor(Math.random() * 100);
+            numbers.unshift(newNumber);
+            numbers.pop();
+
+            createTable();
+        }
+        createTable();
+    </script>
+</body>
+</html>
