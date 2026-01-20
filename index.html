@@ -15,46 +15,57 @@
 </head>
 <body>
     <table></table>
-    <button onclick="addNumber()">Добавить число</button>
-    
+    <button onclick="foo()">Добавить число</button>
     <script>
-
         let numbers = [];
-        for(let i = 0; i < 30; i++) {
-            numbers.push(Math.floor(Math.random() * 100));
-        }
-        
-        function createTable() {
-            const table = document.querySelector('table');
-            table.innerHTML = '';
-            
-            for(let row = 0; row < 5; row++) {
+            for(let i = 0; i < 30; i++) {
+                numbers.push(Math.floor(Math.random() * 100));
+            }
+
+        for(let row = 0; row < 5; row++) {
                 let tr = document.createElement('tr');
                 for(let col = 0; col < 6; col++) {
                     let td = document.createElement('td');
-                    let index = row * 6 + col;
-                    let value = numbers[index];
-                    td.textContent = value;
-                    
-                    if(value >= 50) {
-                        td.style.backgroundColor = "orange";
-                    }
-                    
+                    td.textContent = numbers[row * 6 + col];
                     tr.appendChild(td);
                 }
-                table.appendChild(tr);
+            document.querySelector('table').appendChild(tr);
+            }
+
+            let table = document.body.firstElementChild
+
+            for(let row of table.rows) {
+        for (let td of row.cells) {
+            if(Number(td.textContent) > 49){
+                td.style.backgroundColor = "orange"
             }
         }
-        
+    }
+    let i = 5;
+let currentRow = null;
 
-        function addNumber() {
-            const newNumber = Math.floor(Math.random() * 100);
-            numbers.unshift(newNumber);
-            numbers.pop();
-
-            createTable();
-        }
-        createTable();
+function foo() {
+    if(i > 5) {
+        currentRow = document.createElement('tr');
+        i = 0;
+    }
+    
+    const newCell = document.createElement('td');
+    
+    const randomNumber = Math.floor(Math.random() * 100);
+    newCell.textContent = randomNumber;
+    
+    if(randomNumber > 49) {
+        newCell.style.backgroundColor = "orange";
+    } else {
+        newCell.style.backgroundColor = "white";
+    }
+    
+    i++;
+    
+    currentRow.appendChild(newCell);
+    table.appendChild(currentRow);
+}
     </script>
 </body>
 </html>
