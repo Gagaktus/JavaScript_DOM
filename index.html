@@ -161,11 +161,7 @@
         function createHearts(rate) {
             let hearts = "";
             for (let i = 0; i < 10; i++) {
-                if (i < rate) {
-                    hearts += "❤️";
-                } else {
-                    hearts += "🤍";
-                }
+                hearts += i < rate ? "❤️" : "🤍";
             }
             return hearts;
         }
@@ -176,42 +172,60 @@
             return "лет";
         }
 
-        function createCatCard(cat) {
-            const hearts = createHearts(cat.rate);
-            const ageWord = getAgeWord(cat.age);
-            
-            let imgSrc = cat.img_link;
-            
-            let html = `
-                <div class="cat-card">
-                    <img src="${imgSrc}" alt="${cat.name}" class="cat-img">
-                    <div class="cat-name">${cat.name}</div>
-                    <div class="cat-age">Возраст: ${cat.age} ${ageWord}</div>
-                    <div class="rate-hearts">${hearts}</div>
-                    <div class="description">${cat.description}</div>
-            `;
-            
+        function buildCatCard(cat) {
+            const card = document.createElement('div');
+            card.classList.add('cat-card');
+
+            const img = document.createElement('img');
+            img.classList.add('cat-img');
+            img.src = cat.img_link;
+            img.alt = cat.name;
+            card.appendChild(img);
+
+            const nameDiv = document.createElement('div');
+            nameDiv.classList.add('cat-name');
+            nameDiv.textContent = cat.name;
+            card.appendChild(nameDiv);
+
+            const ageDiv = document.createElement('div');
+            ageDiv.classList.add('cat-age');
+            ageDiv.textContent = `Возраст: ${cat.age} ${getAgeWord(cat.age)}`;
+            card.appendChild(ageDiv);
+
+            const heartsDiv = document.createElement('div');
+            heartsDiv.classList.add('rate-hearts');
+            heartsDiv.textContent = createHearts(cat.rate);
+            card.appendChild(heartsDiv);
+
+            const descDiv = document.createElement('div');
+            descDiv.classList.add('description');
+            descDiv.textContent = cat.description;
+            card.appendChild(descDiv);
+
             if (cat.favourite) {
-                html += `<div class="favourite">⭐ Избранный кот</div>`;
+                const favDiv = document.createElement('div');
+                favDiv.classList.add('favourite');
+                favDiv.textContent = '⭐ Избранный кот';
+                card.appendChild(favDiv);
             }
-            
-            html += `</div>`;
-            
-            return html;
+
+            return card;
         }
 
         function displayCats() {
-            const container = document.getElementById("cats-container");
-            let allCardsHTML = "";
+            const container = document.getElementById('cats-container');
             
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+
             cats.forEach(cat => {
-                allCardsHTML += createCatCard(cat);
+                const card = buildCatCard(cat);
+                container.appendChild(card);
             });
-            
-            container.innerHTML = allCardsHTML;
         }
 
-        document.addEventListener("DOMContentLoaded", displayCats);
+        document.addEventListener('DOMContentLoaded', displayCats);
     </script>
 </body>
 </html>
