@@ -1,86 +1,153 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Каталог товаров с плюсами и минусами</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
-        ul {
-            list-style: none;
-            margin-left: 20px;
-            padding-left: 0;
+        #box {
+            width: 500px;
+            height: 1px;
+            border: 2px solid #333;
+            position: relative;
+            margin: 50px auto;
+            background-color: #ffffff;
         }
-        li {
-            margin: 5px 0;
+        
+        #shrek {
+            width: 20px;
+            height: 20px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
         }
-        .marker {
-            font-weight: bold;
-            margin-right: 5px;
+        
+        #shrek:hover {
+            background-color: #45a049;
         }
-        ul[hidden] {
-            display: none;
+
+        .counter {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .fill-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: #00ff08;
+            pointer-events: none;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
-    <h1>Каталог товаров</h1>
-
-    <ul id="catalog">
-        <li>
-            <span class="marker">+ </span><span class="item-text">Книги</span>
-            <ul hidden>
-                <li><span class="marker">+ </span><span class="item-text">Отечественные</span></li>
-                <li>
-                    <span class="marker">+ </span><span class="item-text">Зарубежные</span>
-                    <ul hidden>
-                        <li><span class="marker">+ </span><span class="item-text">Детективы</span></li>
-                        <li><span class="marker">+ </span><span class="item-text">Научная фантастика</span></li>
-                        <li><span class="marker">+ </span><span class="item-text">Исторические</span></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <span class="marker">+ </span><span class="item-text">DVD</span>
-            <ul hidden>
-                <li>
-                    <span class="marker">+ </span><span class="item-text">Отечественные</span>
-                    <ul hidden>
-                        <li><span class="marker">+ </span><span class="item-text">Детективы</span></li>
-                        <li><span class="marker">+ </span><span class="item-text">Научная фантастика</span></li>
-                        <li><span class="marker">+ </span><span class="item-text">Исторические</span></li>
-                    </ul>
-                </li>
-                <li><span class="marker">+ </span><span class="item-text">Зарубежные</span></li>
-            </ul>
-        </li>
-    </ul>
-
+    <div id="box">
+        <div class="fill-bar"></div>
+        <div id="shrek">
+            <div class="counter">0%</div>
+        </div>
+    </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const items = document.querySelectorAll('#catalog li');
+    shrek.onmousedown = (event) =>{
+        event.preventDefault();
+        if (event.button !== 0) return;
+        const leftStop = box.getBoundingClientRect().width - shrek.getBoundingClientRect().width
 
-            items.forEach(function(li) {
-                const submenu = li.querySelector(':scope > ul');
-                const marker = li.querySelector('.marker');
-                const textSpan = li.querySelector('.item-text');
+        const offsetX = event.clientX - shrek.getBoundingClientRect().left
 
-                if (submenu) {
-                    li.addEventListener('click', function(event) {
-                        event.stopPropagation();
-                        submenu.hidden = !submenu.hidden;
-                        if (submenu.hidden) {
-                            marker.textContent = '+ ';
-                        } else {
-                            marker.textContent = '- ';
-                        }
-                    });
-                } else {
-                    li.addEventListener('click', function(event) {
-                        event.stopPropagation();
-                    });
-                }
+        function moveTo(event){
+            let left = event.pageX -offsetX - box.getBoundingClientRect().left
+            if(left> leftStop) left = leftStop;
+            if(left<0) left = 0;
+
+            const maxLeft = leftStop;
+            const percentage = (left / maxLeft) * 100;
+            const steps = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+            
+            let closestStep = steps.reduce((prev, curr) => {
+                return (Math.abs(curr - percentage) < Math.abs(prev - percentage) ? curr : prev);
             });
-        });
-    </script>
+            
+            left = (closestStep / 100) * maxLeft;
+
+            shrek.style.left = left + "px";
+            updateCounter();
+        }
+
+        document.addEventListener("mousemove", moveTo);
+        document.onmouseup = (event) => {
+            if (event.button !==0)return;
+            document.removeEventListener("mousemove", moveTo);
+            document.onmouseup = null;
+            updateCounter();
+        }
+    }
+    const fillBar = document.querySelector('.fill-bar');
+    const counter = document.querySelector('.counter');
+    
+    function updateCounter() {
+        const currentLeft = parseFloat(shrek.style.left) || 0;
+        const maxLeft = box.getBoundingClientRect().width - shrek.getBoundingClientRect().width;
+        let percentage = (currentLeft / maxLeft) * 100;
+        percentage = Math.min(100, Math.max(0, percentage));
+        const roundedPercentage = Math.round(percentage);
+
+        
+        counter.textContent = `${roundedPercentage}%`;
+        counter.classList.add('visible');
+
+        fillBar.style.width = `${percentage}%`;
+    }
+
+    box.addEventListener('click', (event) => {
+    if (event.target === shrek) return;
+    const boxRect = box.getBoundingClientRect();
+    const clickX = event.clientX - boxRect.left;
+    const maxLeft = boxRect.width - shrek.getBoundingClientRect().width;
+    let newLeft = clickX - (shrek.getBoundingClientRect().width / 2);
+    newLeft = Math.max(0, Math.min(maxLeft, newLeft));
+    shrek.style.left = newLeft + "px";
+    updateCounter();
+});
+
+box.addEventListener('click', (event) => {
+    if (event.target === shrek) return; 
+    const boxRect = box.getBoundingClientRect();
+    const shrekRect = shrek.getBoundingClientRect();
+    const clickX = event.clientX - boxRect.left;
+    const maxLeft = boxRect.width - shrekRect.width;
+    let newLeft = clickX - (shrekRect.width / 2);
+    newLeft = Math.max(0, Math.min(maxLeft, newLeft));
+    const percentage = (newLeft / maxLeft) * 100;
+    const steps = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    
+    let closestStep = steps.reduce((prev, curr) => {
+        return (Math.abs(curr - percentage) < Math.abs(prev - percentage) ? curr : prev);
+    });
+    newLeft = (closestStep / 100) * maxLeft;
+    shrek.style.left = newLeft + "px";
+    updateCounter();
+});
+    
+    setTimeout(() => {
+        updateCounter();
+    }, 100);
+
+</script>
 </body>
 </html>
