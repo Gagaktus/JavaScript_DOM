@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>AniTime - Рандомайзер аниме</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">AniTime</div>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="generator.html">Рандомайзер</a>
+                <a href="index.html#anime">Аниме</a>
+                <a href="index.html#features">Плюсы</a>
+                <a href="index.html#start" class="btn">Войти</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <h1>Рандомайзер аниме</h1>
+            <p>Нажмите кнопку – получите случайное аниме от 1 до 5</p>
+        </div>
+    </section>
+
+    <section class="anime" style="padding: 40px 0;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button id="generateBtn" class="btn" style="background: #ff9800;">Случайное аниме</button>
+                <button id="clearBtn" class="btn" style="background: #555; margin-left: 15px;">Очистить</button>
+            </div>
+            
+            <div id="resultBox" class="result-card" style="display: none;">
+                <div id="randomNumber" class="random-number"></div>
+                <h2 id="animeTitle" class="anime-title"></h2>
+                <div class="anime-poster">
+                    <img id="animeImage" src="" alt="Постер аниме">
+                </div>
+                <p id="animeDescription" class="anime-desc"></p>
+            </div>
+            
+            <div id="emptyMessage" style="text-align: center; color: #aaa; padding: 40px;">
+                Нажмите «Случайное аниме», чтобы начать
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">AniTime</div>
+                <p>© 2025 AniTime</p>
+                <div class="links">
+                    <a href="index.html">Главная</a>
+                    <a href="generator.html">Рандомайзер</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const animeList = [
+            { number: 1, name: "Атака титанов",
+              image: "Pictures/AttackOnTitan.webp",
+              description: "Эпичная история о борьбе человечества с гигантскими титанами." },
+            { number: 2, name: "Реинкарнация безработного",
+              image: "Pictures/Jobless.jpg",
+              description: "Mushoku Tensei: 34-летний затворник перерождается в мире мечей и магии." },
+            { number: 3, name: "Глупый свин",
+              image: "Pictures/ИгттнПшкд.jpg",
+              description: "Романтическая комедия с элементами сверхъестественного (Rascal Does Not Dream of Bunny Girl Senpai)." },
+            { number: 4, name: "Орегайру",
+              image: "Pictures/Oregairu.webp",
+              description: "Моя юношеская романтическая комедия не так, как я ожидал." },
+            { number: 5, name: "Истории монстров",
+              image: "Pictures/Monogatari.png",
+              description: "Monogatari Series: загадочные истории о монстрах и людях." }
+        ];
+
+        function getAnimeByNumber(num) {
+            return animeList.find(anime => anime.number === num);
+        }
+
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 5) + 1;
+        }
+
+        // Обновление интерфейса
+        const resultBox = document.getElementById('resultBox');
+        const emptyMessage = document.getElementById('emptyMessage');
+        const randomNumberSpan = document.getElementById('randomNumber');
+        const animeTitle = document.getElementById('animeTitle');
+        const animeImage = document.getElementById('animeImage');
+        const animeDescription = document.getElementById('animeDescription');
+
+        function displayAnime(number, anime) {
+            randomNumberSpan.textContent = `Выпало число: ${number}`;
+            animeTitle.textContent = anime.name;
+            animeImage.src = anime.image;
+            animeImage.alt = anime.name;
+            animeDescription.textContent = anime.description;
+            
+            resultBox.style.display = 'block';
+            emptyMessage.style.display = 'none';
+        }
+
+        function clearResult() {
+            resultBox.style.display = 'none';
+            emptyMessage.style.display = 'block';
+        }
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const randomNum = getRandomNumber();
+            const selectedAnime = getAnimeByNumber(randomNum);
+            displayAnime(randomNum, selectedAnime);
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', clearResult);
+
+        console.log('Рандомайзер аниме готов. Генерация чисел от 1 до 5.');
+    </script>
+
+    <style>
+        .result-card {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .random-number {
+            background: #ff4081;
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .anime-title {
+            color: #ff4081;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        .anime-poster {
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .anime-poster img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            display: block;
+        }
+        .anime-desc {
+            color: #ccc;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+        @media (max-width: 600px) {
+            .result-card { padding: 20px; margin: 0 15px; }
+            .anime-title { font-size: 22px; }
+        }
+    </style>
+</body>
+</html>
