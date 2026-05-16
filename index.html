@@ -13,6 +13,7 @@
             <nav>
                 <a href="index.html">Главная</a>
                 <a href="generator.html">Генератор</a>
+                <a href="interactive.html">Интерактив</a>
                 <a href="#anime">Аниме</a>
                 <a href="#features">Плюсы</a>
                 <a href="#start" class="btn" id="loginBtn">Войти</a>
@@ -25,44 +26,35 @@
             <h1>Смотри аниме онлайн</h1>
             <p>Тысячи серий, все жанры в одном месте</p>
             <a href="#start" class="btn">Начать бесплатно</a>
+            <button id="popupTrigger" class="btn" style="background:#ff9800; margin-top:15px;">Секретный промокод</button>
         </div>
+        <div id="mouseFollower" class="mouse-follower"></div>
     </section>
 
     <section class="anime" id="anime">
         <div class="container">
             <h2>Популярное</h2>
             <div class="cards">
-                <div class="card" onclick="alert('Атака титанов - легендарное аниме!')">
-                    <div class="card-img">
-                        <img src="Pictures/AttackOnTitan.webp" alt="Атака титанов">
-                    </div>
+                <div class="card" data-title="Атака титанов">
+                    <div class="card-img"><img src="Pictures/AttackOnTitan.webp" alt="Атака титанов"></div>
                     <h3>Атака титанов</h3>
                     <p class="rating">9.8 ★</p>
                     <p class="genre">Экшен, Драма</p>
                 </div>
-                
-                <div class="card" onclick="alert('Магическая битва - суперхит!')">
-                    <div class="card-img">
-                        <img src="Pictures/JujutsuKaisen.webp" alt="Магическая битва">
-                    </div>
+                <div class="card" data-title="Магическая битва">
+                    <div class="card-img"><img src="Pictures/JujutsuKaisen.webp" alt="Магическая битва"></div>
                     <h3>Магическая битва</h3>
                     <p class="rating">9.5 ★</p>
                     <p class="genre">Экшен, Фэнтези</p>
                 </div>
-                
-                <div class="card" onclick="alert('Ван-Пис - смотрите все 1000+ серий!')">
-                    <div class="card-img">
-                        <img src="Pictures/OnePiace.jpg" alt="Ван-Пис">
-                    </div>
+                <div class="card" data-title="Ван-Пис">
+                    <div class="card-img"><img src="Pictures/OnePiace.jpg" alt="Ван-Пис"></div>
                     <h3>Ван-Пис</h3>
                     <p class="rating">9.7 ★</p>
                     <p class="genre">Приключения</p>
                 </div>
-                
-                <div class="card" onclick="alert('Ходячий замок - шедевр Миядзаки')">
-                    <div class="card-img">
-                        <img src="Pictures/TheWalkingCastle.jpg" alt="Ходячий замок">
-                    </div>
+                <div class="card" data-title="Ходячий замок">
+                    <div class="card-img"><img src="Pictures/TheWalkingCastle.jpg" alt="Ходячий замок"></div>
                     <h3>Ходячий замок</h3>
                     <p class="rating">9.3 ★</p>
                     <p class="genre">Фэнтези, Романтика</p>
@@ -75,29 +67,21 @@
         <div class="container">
             <h2>Почему мы?</h2>
             <div class="features-grid">
-                <div class="feature">
-                    <div class="icon">HD</div>
-                    <h3>HD качество</h3>
-                    <p>Все аниме в хорошем качестве</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="icon">📱</div>
-                    <h3>На всех устройствах</h3>
-                    <p>Телефон, ПК, ТВ</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="icon">🆕</div>
-                    <h3>Новые серии</h3>
-                    <p>Выходят каждую неделю</p>
-                </div>
-                
-                <div class="feature">
-                    <div class="icon">💬</div>
-                    <h3>Сообщество</h3>
-                    <p>Обсуждай с фанатами</p>
-                </div>
+                <div class="feature"><div class="icon">HD</div><h3>HD качество</h3><p>Все аниме в хорошем качестве</p></div>
+                <div class="feature"><div class="icon">📱</div><h3>На всех устройствах</h3><p>Телефон, ПК, ТВ</p></div>
+                <div class="feature"><div class="icon">🆕</div><h3>Новые серии</h3><p>Выходят каждую неделю</p></div>
+                <div class="feature"><div class="icon">💬</div><h3>Сообщество</h3><p>Обсуждай с фанатами</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2>Частые вопросы</h2>
+            <div class="accordion">
+                <div class="accordion-item"><div class="accordion-header">Как смотреть аниме бесплатно?</div><div class="accordion-content">Достаточно зарегистрироваться – первый месяц бесплатно. После этого можно выбрать любой тариф.</div></div>
+                <div class="accordion-item"><div class="accordion-header">Есть ли приложение для телефона?</div><div class="accordion-content">Да, приложение доступно в App Store и Google Play.</div></div>
+                <div class="accordion-item"><div class="accordion-header">Как часто добавляются новые серии?</div><div class="accordion-content">Новые серии выходят каждую неделю, сразу после японского эфира.</div></div>
             </div>
         </div>
     </section>
@@ -105,43 +89,33 @@
     <section class="reviews">
         <div class="container">
             <h2>Отзывы</h2>
-            <div class="review-cards">
-                <div class="review">
-                    <div class="avatar">С</div>
-                    <p>"Отличный сайт, много аниме"</p>
-                    <span>Саша</span>
-                </div>
-                
-                <div class="review">
-                    <div class="avatar">К</div>
-                    <p>"Удобно на телефоне"</p>
-                    <span>Кирилл</span>
-                </div>
-                
-                <div class="review">
-                    <div class="avatar">А</div>
-                    <p>"Нравится качество"</p>
-                    <span>Аня</span>
-                </div>
+            <div class="review-cards" id="reviewsContainer">
+                <div class="review"><div class="avatar">С</div><p>"Отличный сайт, много аниме"</p><span>Саша</span></div>
+                <div class="review"><div class="avatar">К</div><p>"Удобно на телефоне"</p><span>Кирилл</span></div>
+                <div class="review"><div class="avatar">А</div><p>"Нравится качество"</p><span>Аня</span></div>
             </div>
+            <button id="addReviewBtn" class="btn" style="margin-top: 30px;">Оставить отзыв</button>
         </div>
     </section>
 
     <section class="start" id="start">
         <div class="container">
             <h2>Начни смотреть</h2>
-            
             <form id="regForm">
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Пароль" required>
+                <div class="username-field">
+                    <label>Никнейм</label>
+                    <input type="text" id="usernameReg" placeholder="Введите ник" autocomplete="off">
+                </div>
+                <input type="email" id="emailReg" placeholder="Email" required>
+                <input type="password" id="passwordReg" placeholder="Пароль" required>
                 <button type="submit" class="btn">Зарегистрироваться</button>
             </form>
-            
             <div class="benefits">
-                <p>✓ Все аниме</p>
-                <p>✓ Можно отменить</p>
-                <p>✓ Поддержка</p>
+                <p>Все аниме</p>
+                <p>Можно отменить</p>
+                <p>Поддержка</p>
             </div>
+            <div id="footnotesArea" class="footnotes-container"></div>
         </div>
     </section>
 
@@ -153,6 +127,7 @@
                 <div class="links">
                     <a href="index.html">Главная</a>
                     <a href="generator.html">Генератор</a>
+                    <a href="interactive.html">Интерактив</a>
                     <a href="#anime">Аниме</a>
                     <a href="#features">Плюсы</a>
                     <a href="#start">Войти</a>
@@ -161,16 +136,120 @@
         </div>
     </footer>
 
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup-content">
+            <span class="popup-close">&times;</span>
+            <h3>Секретный промокод</h3>
+            <p>Введите <strong>ANITIME2025</strong> при регистрации и получите месяц премиум-доступа в подарок!</p>
+            <button class="btn close-popup">Закрыть</button>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('regForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Демо-режим: регистрация временно недоступна. Спасибо за интерес!');
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isOpen = content.style.maxHeight;
+                document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                if (!isOpen) content.style.maxHeight = content.scrollHeight + 'px';
+            });
         });
-        
-        document.getElementById('loginBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Демо-режим: вход будет доступен после регистрации.');
+
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupTrigger = document.getElementById('popupTrigger');
+        const closePopupBtns = document.querySelectorAll('.popup-close, .close-popup');
+        function openPopup() { popupOverlay.classList.add('active'); }
+        function closePopup() { popupOverlay.classList.remove('active'); }
+        if(popupTrigger) popupTrigger.addEventListener('click', openPopup);
+        closePopupBtns.forEach(btn => btn.addEventListener('click', closePopup));
+        if(popupOverlay) popupOverlay.addEventListener('click', (e) => { if(e.target === popupOverlay) closePopup(); });
+
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        document.getElementById('addReviewBtn').addEventListener('click', () => {
+            const name = prompt("Ваше имя:");
+            if(!name) return;
+            const text = prompt("Ваш отзыв:");
+            if(!text) return;
+            const newReview = document.createElement('div');
+            newReview.className = 'review';
+            newReview.style.opacity = '0';
+            newReview.style.transform = 'translateY(20px)';
+            newReview.innerHTML = `<div class="avatar">${name[0].toUpperCase()}</div><p>"${text}"</p><span>${name}</span>`;
+            reviewsContainer.appendChild(newReview);
+            setTimeout(() => { newReview.style.opacity = '1'; newReview.style.transform = 'translateY(0)'; }, 10);
         });
+
+        const follower = document.getElementById('mouseFollower');
+        document.addEventListener('mousemove', (e) => {
+            follower.style.left = e.clientX + 'px';
+            follower.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.05)';
+                card.style.boxShadow = '0 0 20px #ff4081';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+                card.style.boxShadow = 'none';
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closePopup();
+            if(e.key === 'r' || e.key === 'R') window.location.href = 'generator.html';
+        });
+
+        const regForm = document.getElementById('regForm');
+        const footnotesContainer = document.getElementById('footnotesArea');
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        function addRegistrationFootnote(username, email, password) {
+            if (!footnotesContainer) return;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('ru-RU');
+            const fullDateTime = `${dateStr} в ${timeStr}`;
+            const footnote = document.createElement('div');
+            footnote.className = 'reg-footnote';
+            footnote.innerHTML = `
+                <strong>${escapeHtml(username)}</strong><br>
+                📧 ${escapeHtml(email)}<br>
+                🔑 ${escapeHtml(password)}<br>
+                <small>🕒 Зарегистрирован: ${fullDateTime}</small>
+            `;
+            footnotesContainer.appendChild(footnote);
+            footnote.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        if (regForm) {
+            regForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('usernameReg').value.trim();
+                const email = document.getElementById('emailReg').value.trim();
+                const password = document.getElementById('passwordReg').value;
+                if (!email.includes('@')) {
+                    return;
+                }
+                addRegistrationFootnote(username || 'Аноним', email, password);
+                const emailInput = document.getElementById('emailReg');
+                emailInput.style.borderColor = '#4caf50';
+                setTimeout(() => { emailInput.style.borderColor = '#333'; }, 600);
+            });
+        }
+
+        document.getElementById('loginBtn').addEventListener('click', (e) => e.preventDefault());
     </script>
 </body>
 </html>

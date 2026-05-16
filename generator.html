@@ -12,10 +12,11 @@
             <div class="logo">AniTime</div>
             <nav>
                 <a href="index.html">Главная</a>
-                <a href="generator.html">Рандомайзер</a>
+                <a href="generator.html">Генератор</a>
+                <a href="interactive.html">Интерактив</a>
                 <a href="index.html#anime">Аниме</a>
                 <a href="index.html#features">Плюсы</a>
-                <a href="index.html#start" class="btn">Войти</a>
+                <a href="index.html#start" class="btn" id="loginBtn">Войти</a>
             </nav>
         </div>
     </header>
@@ -28,7 +29,7 @@
     </section>
 
     <section class="anime" style="padding: 40px 0;">
-        <div class="container">
+        <div class="container>
             <div style="text-align: center; margin-bottom: 30px;">
                 <button id="generateBtn" class="btn" style="background: #ff9800;">Случайное аниме</button>
                 <button id="clearBtn" class="btn" style="background: #555; margin-left: 15px;">Очистить</button>
@@ -37,14 +38,32 @@
             <div id="resultBox" class="result-card" style="display: none;">
                 <div id="randomNumber" class="random-number"></div>
                 <h2 id="animeTitle" class="anime-title"></h2>
-                <div class="anime-poster">
+                <div class="anime-poster" id="animePoster">
                     <img id="animeImage" src="" alt="Постер аниме">
                 </div>
                 <p id="animeDescription" class="anime-desc"></p>
+                <div id="mouseCoords" class="mouse-coords"></div>
+                <div class="number-buttons">
+                    <button data-num="1">1</button><button data-num="2">2</button>
+                    <button data-num="3">3</button><button data-num="4">4</button><button data-num="5">5</button>
+                </div>
             </div>
-            
             <div id="emptyMessage" style="text-align: center; color: #aaa; padding: 40px;">
                 Нажмите «Случайное аниме», чтобы начать
+            </div>
+
+            <div class="carousel-container" style="margin-top: 60px;">
+                <h3>Популярные жанры</h3>
+                <div class="carousel">
+                    <button class="carousel-btn prev">❮</button>
+                    <div class="carousel-track">
+                        <div class="carousel-slide"><img src="Pictures/AttackOnTitan.webp" alt="Экшен"><span>Экшен</span></div>
+                        <div class="carousel-slide"><img src="Pictures/JujutsuKaisen.webp" alt="Фэнтези"><span>Фэнтези</span></div>
+                        <div class="carousel-slide"><img src="Pictures/OnePiace.jpg" alt="Приключения"><span>Приключения</span></div>
+                        <div class="carousel-slide"><img src="Pictures/TheWalkingCastle.jpg" alt="Романтика"><span>Романтика</span></div>
+                    </div>
+                    <button class="carousel-btn next">❯</button>
+                </div>
             </div>
         </div>
     </section>
@@ -56,56 +75,49 @@
                 <p>© 2025 AniTime</p>
                 <div class="links">
                     <a href="index.html">Главная</a>
-                    <a href="generator.html">Рандомайзер</a>
+                    <a href="generator.html">Генератор</a>
+                    <a href="interactive.html">Интерактив</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-img" src="" alt="Увеличенное изображение">
+    </div>
+
     <script>
         const animeList = [
-            { number: 1, name: "Атака титанов",
-              image: "Pictures/AttackOnTitan.webp",
-              description: "Эпичная история о борьбе человечества с гигантскими титанами." },
-            { number: 2, name: "Реинкарнация безработного",
-              image: "Pictures/Jobless.jpg",
-              description: "Mushoku Tensei: 34-летний затворник перерождается в мире мечей и магии." },
-            { number: 3, name: "Глупый свин",
-              image: "Pictures/ИгттнПшкд.jpg",
-              description: "Романтическая комедия с элементами сверхъестественного (Rascal Does Not Dream of Bunny Girl Senpai)." },
-            { number: 4, name: "Орегайру",
-              image: "Pictures/Oregairu.webp",
-              description: "Моя юношеская романтическая комедия не так, как я ожидал." },
-            { number: 5, name: "Истории монстров",
-              image: "Pictures/Monogatari.png",
-              description: "Monogatari Series: загадочные истории о монстрах и людях." }
+            { number: 1, name: "Атака титанов", image: "Pictures/AttackOnTitan.webp", description: "Эпичная история о борьбе человечества с гигантскими титанами." },
+            { number: 2, name: "Реинкарнация безработного", image: "Pictures/Jobless.jpg", description: "Mushoku Tensei: 34-летний затворник перерождается в мире мечей и магии." },
+            { number: 3, name: "Глупый свин", image: "Pictures/ИгттнПшкд.jpg", description: "Романтическая комедия с элементами сверхъестественного." },
+            { number: 4, name: "Орегайру", image: "Pictures/Oregairu.webp", description: "Моя юношеская романтическая комедия не так, как я ожидал." },
+            { number: 5, name: "Истории монстров", image: "Pictures/Monogatari.png", description: "Monogatari Series: загадочные истории о монстрах и людях." }
         ];
 
-        function getAnimeByNumber(num) {
-            return animeList.find(anime => anime.number === num);
-        }
-
-        function getRandomNumber() {
-            return Math.floor(Math.random() * 5) + 1;
-        }
-
-        // Обновление интерфейса
         const resultBox = document.getElementById('resultBox');
         const emptyMessage = document.getElementById('emptyMessage');
         const randomNumberSpan = document.getElementById('randomNumber');
         const animeTitle = document.getElementById('animeTitle');
         const animeImage = document.getElementById('animeImage');
         const animeDescription = document.getElementById('animeDescription');
+        const mouseCoordsDiv = document.getElementById('mouseCoords');
+
+        function getAnimeByNumber(num) { return animeList.find(anime => anime.number === num); }
+        function getRandomNumber() { return Math.floor(Math.random() * 5) + 1; }
 
         function displayAnime(number, anime) {
             randomNumberSpan.textContent = `Выпало число: ${number}`;
             animeTitle.textContent = anime.name;
             animeImage.src = anime.image;
-            animeImage.alt = anime.name;
             animeDescription.textContent = anime.description;
-            
             resultBox.style.display = 'block';
             emptyMessage.style.display = 'none';
+            resultBox.style.animation = 'none';
+            resultBox.offsetHeight;
+            resultBox.style.animation = 'fadeIn 0.4s ease, shake 0.3s ease';
+            setTimeout(() => { resultBox.style.animation = 'fadeIn 0.4s ease'; }, 300);
         }
 
         function clearResult() {
@@ -114,65 +126,84 @@
         }
 
         document.getElementById('generateBtn').addEventListener('click', () => {
-            const randomNum = getRandomNumber();
-            const selectedAnime = getAnimeByNumber(randomNum);
-            displayAnime(randomNum, selectedAnime);
+            const num = getRandomNumber();
+            displayAnime(num, getAnimeByNumber(num));
         });
-
         document.getElementById('clearBtn').addEventListener('click', clearResult);
 
-        console.log('Рандомайзер аниме готов. Генерация чисел от 1 до 5.');
-    </script>
+        document.querySelectorAll('.number-buttons button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const num = parseInt(btn.dataset.num);
+                const anime = getAnimeByNumber(num);
+                if(anime) displayAnime(num, anime);
+            });
+        });
 
-    <style>
-        .result-card {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 500px;
-            margin: 0 auto;
-            text-align: center;
-            animation: fadeIn 0.4s ease;
+        resultBox.addEventListener('mousemove', (e) => {
+            const rect = resultBox.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            mouseCoordsDiv.textContent = `X: ${Math.round(x)} px, Y: ${Math.round(y)} px`;
+            const brightness = 0.8 + (y / rect.height) * 0.4;
+            resultBox.style.backgroundColor = `rgba(26, 26, 46, ${brightness})`;
+        });
+        resultBox.addEventListener('mouseleave', () => {
+            mouseCoordsDiv.textContent = 'Наведи мышку на карточку';
+            resultBox.style.backgroundColor = '#1a1a2e';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight') {
+                const num = getRandomNumber();
+                displayAnime(num, getAnimeByNumber(num));
+            } else if(e.key === 'Escape') {
+                clearResult();
+            } else if(e.key >= '1' && e.key <= '5') {
+                const num = parseInt(e.key);
+                const anime = getAnimeByNumber(num);
+                if(anime) displayAnime(num, anime);
+            }
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('.lightbox-img');
+        const lightboxClose = lightbox.querySelector('.lightbox-close');
+        document.getElementById('animePoster').addEventListener('click', () => {
+            if(animeImage.src) {
+                lightboxImg.src = animeImage.src;
+                lightbox.classList.add('active');
+            }
+        });
+        function closeLightbox() { lightbox.classList.remove('active'); }
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+        document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox(); });
+
+        const track = document.querySelector('.carousel-track');
+        const slides = Array.from(track.children);
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+        let currentIndex = 0;
+        function updateCarousel() {
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .random-number {
-            background: #ff4081;
-            display: inline-block;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-        .anime-title {
-            color: #ff4081;
-            margin-bottom: 15px;
-            font-size: 28px;
-        }
-        .anime-poster {
-            margin: 20px 0;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .anime-poster img {
-            width: 100%;
-            max-height: 350px;
-            object-fit: cover;
-            display: block;
-        }
-        .anime-desc {
-            color: #ccc;
-            line-height: 1.5;
-            margin-top: 15px;
-        }
-        @media (max-width: 600px) {
-            .result-card { padding: 20px; margin: 0 15px; }
-            .anime-title { font-size: 22px; }
-        }
-    </style>
+        nextBtn.addEventListener('click', () => {
+            if(currentIndex < slides.length - 1) currentIndex++;
+            else currentIndex = 0;
+            updateCarousel();
+        });
+        prevBtn.addEventListener('click', () => {
+            if(currentIndex > 0) currentIndex--;
+            else currentIndex = slides.length - 1;
+            updateCarousel();
+        });
+        window.addEventListener('resize', updateCarousel);
+        setTimeout(updateCarousel, 100);
+
+        document.getElementById('loginBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+    </script>
 </body>
 </html>

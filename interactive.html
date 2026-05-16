@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>AniTime - Интерактивные компоненты</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">AniTime</div>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="generator.html">Генератор</a>
+                <a href="interactive.html">Интерактив</a>
+                <a href="index.html#anime">Аниме</a>
+                <a href="index.html#features">Плюсы</a>
+                <a href="index.html#start" class="btn" id="loginBtn">Войти</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" style="padding: 60px 0;">
+        <div class="container">
+            <h1>Интерактивные возможности</h1>
+            <p>Форма карты, слайдеры, галерея и многое другое</p>
+        </div>
+    </section>
+
+    <section class="interactive-grid container">
+        <div class="card-form-block">
+            <h2>Оплата картой</h2>
+            <form id="cardForm">
+                <div class="form-group">
+                    <label>Номер карты</label>
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+                    <span class="error" id="cardError"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ММ/ГГ</label>
+                        <input type="text" id="cardExpiry" placeholder="ММ/ГГ" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" id="cardCvv" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+                <button type="submit" class="btn">Оплатить</button>
+            </form>
+        </div>
+
+        <div class="image-picker-block">
+            <h2>Image Picker</h2>
+            <div class="main-image">
+                <img id="selectedImage" src="Pictures/AttackOnTitan.webp" alt="Выбранное изображение">
+            </div>
+            <div class="thumbnails">
+                <img src="Pictures/AttackOnTitan.webp" data-img="Pictures/AttackOnTitan.webp">
+                <img src="Pictures/JujutsuKaisen.webp" data-img="Pictures/JujutsuKaisen.webp">
+                <img src="Pictures/OnePiace.jpg" data-img="Pictures/OnePiace.jpg">
+                <img src="Pictures/TheWalkingCastle.jpg" data-img="Pictures/TheWalkingCastle.jpg">
+            </div>
+        </div>
+
+        <div class="gallery-block">
+            <h2>Галерея (Lightbox)</h2>
+            <div class="gallery-thumbs">
+                <img src="Pictures/AttackOnTitan.webp" data-lightbox="Pictures/AttackOnTitan.webp">
+                <img src="Pictures/JujutsuKaisen.webp" data-lightbox="Pictures/JujutsuKaisen.webp">
+                <img src="Pictures/OnePiace.jpg" data-lightbox="Pictures/OnePiace.jpg">
+                <img src="Pictures/TheWalkingCastle.jpg" data-lightbox="Pictures/TheWalkingCastle.jpg">
+            </div>
+        </div>
+
+        <div class="accordion-block">
+            <h2>Accordion</h2>
+            <div class="accordion" id="accordion2">
+                <div class="accordion-item">
+                    <div class="accordion-header">Что такое AniTime?</div>
+                    <div class="accordion-content">AniTime – это платформа для просмотра аниме в высоком качестве.</div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">Есть ли мобильное приложение?</div>
+                    <div class="accordion-content">Да, доступно в магазинах приложений.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-block">
+            <h2>Popup окно</h2>
+            <button id="openPopupBtn" class="btn">Открыть уведомление</button>
+        </div>
+    </section>
+
+    <div id="globalLightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-img" src="">
+    </div>
+
+    <div id="infoPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="popup-close">&times;</span>
+            <h3>Специальное предложение</h3>
+            <p>Подпишись на рассылку и получи скидку 20% на первый месяц!</p>
+            <button class="btn close-popup">Закрыть</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">AniTime</div>
+                <p>© 2025 AniTime</p>
+                <div class="links">
+                    <a href="index.html">Главная</a>
+                    <a href="generator.html">Генератор</a>
+                    <a href="interactive.html">Интерактив</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('cardForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let number = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const expiry = document.getElementById('cardExpiry').value;
+            const cvv = document.getElementById('cardCvv').value;
+            const errorSpan = document.getElementById('cardError');
+            if (!/^\d{16}$/.test(number)) { errorSpan.textContent = 'Номер должен содержать 16 цифр'; return; }
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) { errorSpan.textContent = 'Формат ММ/ГГ'; return; }
+            const [month, year] = expiry.split('/');
+            const now = new Date();
+            const currentYear = now.getFullYear() % 100;
+            const currentMonth = now.getMonth() + 1;
+            if (parseInt(year) < currentYear || (parseInt(year) === currentYear && parseInt(month) < currentMonth)) {
+                errorSpan.textContent = 'Срок действия истёк'; return;
+            }
+            if (!/^\d{3}$/.test(cvv)) { errorSpan.textContent = 'CVV: 3 цифры'; return; }
+            errorSpan.textContent = '';
+        });
+
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let val = this.value.replace(/\D/g, '').substring(0, 16);
+            let parts = val.match(/.{1,4}/g);
+            if(parts) this.value = parts.join(' ');
+            else this.value = val;
+        });
+        document.getElementById('cardExpiry').addEventListener('input', function(e) {
+            let val = this.value.replace(/\D/g, '').substring(0, 4);
+            if(val.length >= 3) this.value = val.substring(0,2) + '/' + val.substring(2);
+            else this.value = val;
+        });
+
+        const mainImg = document.getElementById('selectedImage');
+        document.querySelectorAll('.thumbnails img').forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                mainImg.src = thumb.dataset.img;
+                mainImg.style.animation = 'none';
+                mainImg.offsetHeight;
+                mainImg.style.animation = 'fadeIn 0.3s ease';
+            });
+        });
+
+        const lightbox = document.getElementById('globalLightbox');
+        const lightboxImg = lightbox.querySelector('.lightbox-img');
+        document.querySelectorAll('[data-lightbox]').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.dataset.lightbox;
+                lightbox.classList.add('active');
+            });
+        });
+        function closeLightbox() { lightbox.classList.remove('active'); }
+        lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+        document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox(); });
+
+        document.querySelectorAll('#accordion2 .accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isOpen = content.style.maxHeight;
+                document.querySelectorAll('#accordion2 .accordion-content').forEach(c => c.style.maxHeight = null);
+                if (!isOpen) content.style.maxHeight = content.scrollHeight + 'px';
+            });
+        });
+
+        const infoPopup = document.getElementById('infoPopup');
+        document.getElementById('openPopupBtn').addEventListener('click', () => infoPopup.classList.add('active'));
+        document.querySelectorAll('#infoPopup .popup-close, #infoPopup .close-popup').forEach(btn => {
+            btn.addEventListener('click', () => infoPopup.classList.remove('active'));
+        });
+        infoPopup.addEventListener('click', (e) => { if(e.target === infoPopup) infoPopup.classList.remove('active'); });
+
+        document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && infoPopup.classList.contains('active')) infoPopup.classList.remove('active'); });
+
+        document.getElementById('loginBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
