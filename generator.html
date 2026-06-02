@@ -27,6 +27,7 @@
             <p>Нажмите кнопку – получите случайное аниме от 1 до 5</p>
             <p style="font-size: 14px; color: #aaa;">Клавиши: → случайное, ← очистить, ESC очистить, 1-5 выбор</p>
         </div>
+        <div id="mouseFollower" class="mouse-follower"></div>
     </section>
 
     <section class="anime" style="padding: 40px 0;">
@@ -89,6 +90,12 @@
     </div>
 
     <script>
+        const follower = document.getElementById('mouseFollower');
+        document.addEventListener('mousemove', (e) => {
+            follower.style.left = e.clientX + 'px';
+            follower.style.top = e.clientY + 'px';
+        });
+
         const animeList = [
             { number: 1, name: "Атака титанов", image: "Pictures/AttackOnTitan.webp", description: "Эпичная история о борьбе человечества с гигантскими титанами." },
             { number: 2, name: "Реинкарнация безработного", image: "Pictures/Jobless.jpg", description: "Mushoku Tensei: 34-летний затворник перерождается в мире мечей и магии." },

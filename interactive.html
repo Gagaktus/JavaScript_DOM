@@ -26,6 +26,7 @@
             <h1>Интерактивные возможности</h1>
             <p>Форма карты, слайдеры, галерея и многое другое</p>
         </div>
+        <div id="mouseFollower" class="mouse-follower"></div>
     </section>
 
     <section class="interactive-grid container">
@@ -123,6 +124,12 @@
     </footer>
 
     <script>
+        const follower = document.getElementById('mouseFollower');
+        document.addEventListener('mousemove', (e) => {
+            follower.style.left = e.clientX + 'px';
+            follower.style.top = e.clientY + 'px';
+        });
+
         document.getElementById('cardForm').addEventListener('submit', (e) => {
             e.preventDefault();
             let number = document.getElementById('cardNumber').value.replace(/\s/g, '');
