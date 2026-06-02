@@ -139,7 +139,7 @@
                 errorSpan.textContent = 'Срок действия истёк'; return;
             }
             if (!/^\d{3}$/.test(cvv)) { errorSpan.textContent = 'CVV: 3 цифры'; return; }
-            errorSpan.textContent = '';
+            errorSpan.textContent = 'Оплата успешна!';
         });
 
         document.getElementById('cardNumber').addEventListener('input', function(e) {

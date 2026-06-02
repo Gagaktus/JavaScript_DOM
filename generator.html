@@ -25,11 +25,12 @@
         <div class="container">
             <h1>Рандомайзер аниме</h1>
             <p>Нажмите кнопку – получите случайное аниме от 1 до 5</p>
+            <p style="font-size: 14px; color: #aaa;">Клавиши: → случайное, ← очистить, ESC очистить, 1-5 выбор</p>
         </div>
     </section>
 
     <section class="anime" style="padding: 40px 0;">
-        <div class="container>
+        <div class="container">
             <div style="text-align: center; margin-bottom: 30px;">
                 <button id="generateBtn" class="btn" style="background: #ff9800;">Случайное аниме</button>
                 <button id="clearBtn" class="btn" style="background: #555; margin-left: 15px;">Очистить</button>
@@ -156,7 +157,7 @@
             if(e.key === 'ArrowRight') {
                 const num = getRandomNumber();
                 displayAnime(num, getAnimeByNumber(num));
-            } else if(e.key === 'Escape') {
+            } else if(e.key === 'ArrowLeft' || e.key === 'Escape') {
                 clearResult();
             } else if(e.key >= '1' && e.key <= '5') {
                 const num = parseInt(e.key);
@@ -199,7 +200,7 @@
             updateCarousel();
         });
         window.addEventListener('resize', updateCarousel);
-        setTimeout(updateCarousel, 100);
+        updateCarousel();
 
         document.getElementById('loginBtn').addEventListener('click', (e) => {
             e.preventDefault();

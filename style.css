@@ -9,6 +9,7 @@ body {
     background: #0a0a0a;
     color: white;
     line-height: 1.5;
+    cursor: none;
 }
 
 .container {
@@ -75,7 +76,7 @@ nav a:hover { color: #ff4081; }
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 999;
-    transition: 0.05s linear;
+    transition: none;
 }
 
 .anime { padding: 80px 0; background: #0a0a0a; }
@@ -218,13 +219,15 @@ input {
     cursor: pointer;
 }
 
-.carousel-container { background: #1a1a2e; border-radius: 20px; padding: 20px; margin-top: 40px; }
-.carousel { display: flex; align-items: center; gap: 10px; }
-.carousel-track { display: flex; overflow: hidden; width: 100%; transition: transform 0.3s ease; }
-.carousel-slide { flex: 0 0 100%; text-align: center; }
+.carousel-container { background: #1a1a2e; border-radius: 20px; padding: 20px; margin-top: 40px; overflow: hidden; }
+.carousel { display: flex; align-items: center; gap: 10px; position: relative; }
+.carousel-track { display: flex; width: 100%; transition: transform 0.3s ease; }
+.carousel-slide { flex: 0 0 100%; text-align: center; padding: 0 5px; }
 .carousel-slide img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 12px; }
-.carousel-btn { background: #ff4081; border: none; color: white; font-size: 24px; padding: 10px 15px; border-radius: 50%; cursor: pointer; }
-@media (min-width: 768px) { .carousel-slide { flex: 0 0 33.33%; } }
+.carousel-btn { background: #ff4081; border: none; color: white; font-size: 24px; padding: 10px 15px; border-radius: 50%; cursor: pointer; flex-shrink: 0; }
+@media (min-width: 768px) { 
+    .carousel-slide { flex: 0 0 33.33%; } 
+}
 
 .interactive-grid {
     display: grid;
@@ -249,7 +252,6 @@ input {
 .gallery-thumbs img { width: 100px; height: 100px; object-fit: cover; border-radius: 12px; cursor: pointer; transition: 0.2s; }
 .gallery-thumbs img:hover { transform: scale(1.05); }
 
-/* Стили для генератора (исправление фото) */
 .result-card {
     background: #1a1a2e;
     border-radius: 20px;
@@ -286,7 +288,7 @@ input {
 .anime-poster img {
     width: 100%;
     max-height: 350px;
-    object-fit: contain;   /* чтобы картинка не выходила за рамки и не искажалась */
+    object-fit: contain;
     display: block;
 }
 .anime-desc {
@@ -346,7 +348,6 @@ input {
     nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
     .interactive-grid { grid-template-columns: 1fr; }
 }
-/* Сноски регистрации */
 .footnotes-container {
     margin-top: 20px;
     max-width: 500px;
